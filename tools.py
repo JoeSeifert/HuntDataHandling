@@ -211,6 +211,7 @@ class MeasurementLibrary:
     #       -ex: field-sweeps, QH configs
     # THINGS TO ADD:
     #
+    #   -'1kOhm' or 'XkOhm' keyword in title -- means current is a voltage measured through X kOhm resistor
     
     def __init__(self, path=None):
         self._data_loc = self._get_data_loc(path)
@@ -238,6 +239,7 @@ class MeasurementLibrary:
             'khz': 1.e3,
             'mhz': 1.e6,
             'ghz': 1.e9,
+            'mk': 1e-3,
         }
         
         # make DataFrames
@@ -391,12 +393,12 @@ class MeasurementLibrary:
                               path=self._data_loc), df[df['meas_id'] == row['meas_id']]
         
     def get_measurement(self, meas_id=None, df=None, config=None, **kwargs):
-    '''
-    Return a generator using either:
-        -a) a list of measurement ID's 
-        -b) a DataFrame with rows in order to iterate
-    Generator returns Measurement objects for each specified measurement.
-    '''
+        '''
+        Return a generator using either:
+            -a) a list of measurement ID's 
+            -b) a DataFrame with rows in order to iterate
+        Generator returns Measurement objects for each specified measurement.
+        '''
         if meas_id is not None:
             return self._get_meas_by_id(meas_id, config=config)
         elif df is not None:
