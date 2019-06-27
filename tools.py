@@ -75,8 +75,8 @@ class Measurement:
         self.config = config if config is not None else Config()
         self._re_dict = {
             'full_path': re.compile(r'[CDEFGHI]:\\.+?'), # i.e. starts with hard drive name
-            'fnum': re.compile(r'0{0,4}\d{1,4}_'),
-            'unit': re.compile(r'\([a-zA-Z]+\)')
+            'unit': re.compile(r'\([a-zA-Z]+\)'),
+            'fnum': re.compile(r'0{0,4}\d{1,4}_')  # for finding fnum when it's not specified
         }
         
         self.raw_df = pd.DataFrame()
@@ -93,8 +93,8 @@ class Measurement:
         #   -make 'time' column a time series in pandas
         
         d = os.getcwd()
-        full_path_re = self._re_dict['full_path']  
-        fnum_re =  self._re_dict['fnum']
+        full_path_re = self._re_dict['full_path']
+        find_fnum_re = self._re_dict['fnum']
         unit_re = self._re_dict['unit']
         
         if self.path is None:  # data in same folder as analysis file
@@ -114,11 +114,12 @@ class Measurement:
             for fn in files:
                 temp = pd.read_csv(f'{data_loc}\\{fn}', sep='\t', header=0)
                 if not temp.empty:
-                    m = fnum_re.match(fn)
+                    m = find_fnum_re.match(fn)
                     temp['scan'] = int(m.group()[:-1])  # make scan num column
                     dfs.append(temp)
         else:
             for n in self.fnums:
+                fnum_re = re.compile(f'0{{0,4}}{n}_')  # for finding a specific fnum
                 fn = None
                 for file in files:
                     if fnum_re.match(file):
