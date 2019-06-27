@@ -223,7 +223,7 @@ class MeasurementLibrary:
             'B': re.compile(r'(-?\d+(?:\.\d+)?)(oe|Oe|T)'),
             'I': re.compile(r'(-?\d+(?:\.\d+)?)((p|n|u|m)A)'),
             'Vg': re.compile(r'(-?\d+(?:\.\d+)?)(V)(?:Vg)?'),
-            'T': re.compile(r'(\d+(?:\.\d+)?)(K)'),
+            'T': re.compile(r'(\d+(?:\.\d+)?)(m?K)'),
             'freq': re.compile(r'(\d+(?:\.\d+)?)((k|m|M|g|G){0,1}(h|H)z)'),
         }
         
