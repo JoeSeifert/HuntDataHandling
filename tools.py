@@ -403,7 +403,7 @@ class MeasurementLibrary:
         if meas_id is not None:
             return self._get_meas_by_id(meas_id, config=config)
         elif df is not None:
-            return self._get_meas_by_df(self, df, config=config)
+            return self._get_meas_by_df(df, config=config)
 
 ##############
 # SOME TOOLS #
